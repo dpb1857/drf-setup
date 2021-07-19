@@ -1,0 +1,11 @@
+from django.shortcuts import render
+
+from rest_framework import viewsets
+from {{app_name}}.models import Sample
+from {{app_name}}.serializers import SampleSerializer
+
+# Create your views here.
+
+class SampleViewSet(viewsets.ModelViewSet):
+      queryset = Sample.objects.all()
+      serializer_class = SampleSerializer
