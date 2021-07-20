@@ -166,17 +166,31 @@ EOF
 echo "****************************************"
 echo "Update $PROJECTNAME/urls.py"
 echo "****************************************"
-sleep 2
+
 cat >> $PROJECTNAME/urls.py <<EOF
 
 ### Added by drf setup script, customizations for ${APPNAME}
 from rest_framework import routers
+from ${PROJECTNAME} import urlapps
+
+apirouter = routers.DefaultRouter()
+for addroutes in urlapps.addroutehooks:
+    addroutes(apirouter)
+
+urlpatterns.append(path('api/', include(apirouter.urls)))
+EOF
+
+cat >> $PROJECTNAME/urlapps.py <<EOF
+
+### Added by drf setup script, customizations for ${APPNAME}
+addroutehooks = []
+
 import ${APPNAME}.views as ${APPNAME}_views
 
-${APPNAME}router = routers.DefaultRouter()
-${APPNAME}router.register('sample', ${APPNAME}_views.SampleViewSet)
+def addroutes_${APPNAME}(router):
+    router.register('sample', ${APPNAME}_views.SampleViewSet)
 
-urlpatterns.append(path('api/', include(${APPNAME}router.urls)))
+addroutehooks.append(addroutes_${APPNAME})
 EOF
 
 echo "****************************************"
