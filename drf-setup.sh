@@ -63,7 +63,9 @@ EOF
 
 set -x
 python3 -m venv pyenv
+set +x
 . pyenv/bin/activate
+set -x
 pip install -r requirements.txt
 set +x
 
@@ -96,6 +98,7 @@ cat >> $PROJECTNAME/settings.py <<EOF
 INSTALLED_APPS.append('rest_framework')
 INSTALLED_APPS.append('corsheaders')
 INSTALLED_APPS.append('django_extensions')
+INSTALLED_APPS.append('django_filters')
 
 # See: https://pypi.org/project/django-cors-headers/
 MIDDLEWARE.insert(2, "corsheaders.middleware.CorsMiddleware")

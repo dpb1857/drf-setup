@@ -1,11 +1,23 @@
-from django.shortcuts import render
+# -*- Python -*-
 
-from rest_framework import viewsets
+from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, pagination, filters
+
 from {{app_name}}.models import Sample
 from {{app_name}}.serializers import SampleSerializer
 
 # Create your views here.
 
+class SamplePagination(pagination.LimitOffsetPagination):
+    default_limit = 100
+    max_limit = 1000
+
 class SampleViewSet(viewsets.ModelViewSet):
-      queryset = Sample.objects.all()
-      serializer_class = SampleSerializer
+    queryset = Sample.objects.all()
+    serializer_class = SampleSerializer
+    pagination_class = SamplePagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['id', 'sample_string']
+    search_fields = ['id', 'sample_string']
+    ordering_fields = ['id', 'sample_string']
