@@ -4,7 +4,7 @@ from django.db import models
 
 class Sample(models.Model):
 
-    id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     sample_string = models.CharField(max_length=32)
 
     def __repr__(self):
